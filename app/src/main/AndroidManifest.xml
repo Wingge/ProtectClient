@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.keeplive.client">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <!-- using <<taskAffinity>> create a new process to keep alive-->
+        <activity
+            android:name="com.keeplive.client.OnePiexlActivity"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:finishOnTaskLaunch="false"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:taskAffinity="com.keepalive.local.service"
+            android:theme="@style/OnePixelActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name="com.keeplive.client.LocalService"
+            android:enabled="true"
+            android:exported="true"
+            android:taskAffinity="com.keepalive.local.service">
+            <intent-filter>
+                <action android:name="wing.android.keep_alive.client" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="com.keeplive.client.ForegroundEnablingService"
+            android:enabled="true"
+            android:taskAffinity="com.keepalive.local.service"></service>
+
+    </application>
+
+</manifest>
