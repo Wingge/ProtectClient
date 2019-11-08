@@ -51,20 +51,15 @@ public class LocalService extends Service {
         bindRemoteService();
         return START_STICKY;
     }
-
-    //隐式前台服务
     private void startHideForeground() {
-        //启动前台服务而不显示通知的漏洞已在 API Level 25 修复，大快人心！
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {
-            //利用漏洞在 API Level 18 及以上的 Android 系统中，启动前台服务而不显示通知(启动两个删除一个)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                ForegroundEnablingService.startForeground(this);
-                startServiceCompat(this, new Intent(this, ForegroundEnablingService.class));
-            } else {
-                //利用漏洞在 API Level 17 及以下的 Android 系统中，启动前台服务而不显示通知
-                startForeground(1, new Notification());
-            }
+//        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            ForegroundEnablingService.startForeground(this);
+            startServiceCompat(this, new Intent(this, ForegroundEnablingService.class));
+        } else {
+            startForeground(NOTIFICATION_ID, new Notification());
         }
+//        }
     }
 
     public static void startForeground(Service service) {
